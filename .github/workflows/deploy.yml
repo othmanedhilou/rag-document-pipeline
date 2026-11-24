@@ -1,0 +1,49 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        options: [dev, prod]
+        default: dev
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_USE_OIDC: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - name: infrastructure, Data Factory pipeline and triggers
+        working-directory: infra/terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve -var env=${{ inputs.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: package function app
+        run: |
+          cp -r src/docpipe function_app/docpipe
+          pip install -r function_app/requirements.txt --target function_app/.python_packages/lib/site-packages
+      - uses: azure/functions-action@v1
+        with:
+          app-name: func-docpipe-${{ inputs.target }}
+          package: function_app
