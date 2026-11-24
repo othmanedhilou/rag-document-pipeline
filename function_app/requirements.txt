@@ -1,0 +1,7 @@
+azure-functions
+azure-storage-blob>=12.19
+azure-search-documents>=11.5
+azure-ai-documentintelligence>=1.0
+openai>=1.40
+numpy>=1.26
+pypdf>=4.0

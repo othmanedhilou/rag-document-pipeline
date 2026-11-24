@@ -1,0 +1,15 @@
+{
+  "name": "ls_function_docpipe",
+  "properties": {
+    "type": "AzureFunction",
+    "typeProperties": {
+      "functionAppUrl": "https://func-docpipe-dev.azurewebsites.net",
+      "functionKey": {
+        "type": "AzureKeyVaultSecret",
+        "store": { "referenceName": "ls_keyvault", "type": "LinkedServiceReference" },
+        "secretName": "function-key"
+      },
+      "authentication": "Anonymous"
+    }
+  }
+}

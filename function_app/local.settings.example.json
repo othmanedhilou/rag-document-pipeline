@@ -1,0 +1,18 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "DOCPIPE_EMBEDDER": "azure",
+    "DOCPIPE_BLOB_CONNECTION_STRING": "",
+    "DOCPIPE_BLOB_CONTAINER": "documents",
+    "DOCPIPE_LOGS_CONTAINER": "pipeline-logs",
+    "DOCPIPE_SEARCH_ENDPOINT": "https://<search>.search.windows.net",
+    "DOCPIPE_SEARCH_KEY": "",
+    "DOCPIPE_SEARCH_INDEX": "documents",
+    "DOCPIPE_OPENAI_ENDPOINT": "https://<openai>.openai.azure.com",
+    "DOCPIPE_OPENAI_KEY": "",
+    "DOCPIPE_DOCINTEL_ENDPOINT": "",
+    "DOCPIPE_DOCINTEL_KEY": ""
+  }
+}
