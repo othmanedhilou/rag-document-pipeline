@@ -1,0 +1,40 @@
+[project]
+name = "rag-document-pipeline"
+version = "1.0.0"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "pypdf>=4.0"]
+
+[project.optional-dependencies]
+azure = [
+  "azure-storage-blob>=12.19",
+  "azure-search-documents>=11.5",
+  "azure-ai-documentintelligence>=1.0",
+  "openai>=1.40",
+]
+local-model = ["sentence-transformers>=3.0"]
+dashboard = ["streamlit>=1.35", "duckdb>=1.0"]
+dev = ["pytest>=8", "ruff>=0.5", "reportlab>=4.0", "dbt-duckdb>=1.8", "duckdb>=1.0"]
+
+[project.scripts]
+docpipe = "docpipe.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 130
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"dashboard/app.py" = ["E402"]
