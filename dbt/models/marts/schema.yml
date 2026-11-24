@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: dim_documents
+    description: Latest known state of each document.
+    columns:
+      - name: doc_id
+        tests: [unique, not_null]
+      - name: current_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [indexed, failed, deleted]
+  - name: fct_runs
+    columns:
+      - name: run_id
+        tests: [unique, not_null]
+  - name: mart_index_freshness
+    description: Health of the index, one row.
+  - name: mart_document_coverage
+    columns:
+      - name: extension
+        tests: [unique]

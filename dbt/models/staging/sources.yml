@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_runs
+    description: One row per pipeline run, read from the run logs.
+    columns:
+      - name: run_id
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [success, partial, failed]
+  - name: stg_document_events
+    description: One row per document handled in a run.
+    columns:
+      - name: run_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_runs')
+                field: run_id
+      - name: doc_id
+        tests: [not_null]
+      - name: action
+        tests:
+          - accepted_values:
+              arguments:
+                values: [new, changed, deleted]
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [indexed, unchanged, failed, removed]

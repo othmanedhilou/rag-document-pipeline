@@ -1,0 +1,13 @@
+docpipe:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ../state/monitoring.duckdb
+      threads: 2
+    azure:
+      type: duckdb
+      path: ../state/monitoring.duckdb
+      extensions: [azure]
+      settings:
+        azure_storage_connection_string: "{{ env_var('DOCPIPE_BLOB_CONNECTION_STRING', '') }}"
